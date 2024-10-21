@@ -1,0 +1,13 @@
+<div id="instructions" class="d-flex flex-column align-items-center p-4">
+	<video id="my_video" class="video-js vjs-default-skin" width="640px" height="267px"
+		poster=''
+		data-setup='{ "aspectRatio":"640:267", "playbackRates": [1, 1.5, 2] }'>
+		<source src="{{player.video}}" type='video/mp4' />
+	</video>
+	<div class="btn-group btn-group-toggle mx-auto py-2" data-toggle="buttons">
+		<button (click)="playPause()" class="btn btn-secondary btn-sm">Play/Pause <span class="px-1"><i class="fa-solid fa-play"></i></span><i class="fa-solid fa-stop"></i></button>
+		<button (click)="restart();" class="btn btn-secondary btn-sm">Restart<span class="px-1"><i class="fa-solid fa-reply"></i></span></button>
+		<button (click)="skip(-5)" class="btn btn-secondary btn-sm"><span class="px-1"><i class="fa-solid fa-backward"></i></span>Rewind</button>
+		<button (click)="skip(5)" class="btn btn-secondary btn-sm">Fastforward <i class="fa-solid fa-forward-fast"></i></button>
+	</div>
+</div>

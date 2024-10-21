@@ -1,0 +1,20 @@
+<section class="container">
+
+  <button [routerLink]="['/']" class="btn btn-warning my-4">Ver Todos</button>
+  <div class="row">
+      <div class="col-lg-6">
+          <app-media-component>
+              <source src="{{player.video}}" />
+          </app-media-component>
+      </div>
+      <div class="col-lg-6">
+          <h1>{{player.nombre}}</h1>
+          <h4><b>Número:</b> {{player.num}}</h4>
+          <p *ngIf="!!player.anillos"><b>Anillos NBA:</b> {{player.anillos}}</p>
+          <p *ngIf="!player.anillos"><b>Anillos NBA:</b> Ninguno</p>
+          <p><b>Posición:</b> {{player.posicion}}</p>
+          <p><b>Edad:</b> {{player.edad}}</p>
+          <p><b>Descripcion:</b> {{player.descripcion}}</p>
+      </div>
+  </div>
+</section>

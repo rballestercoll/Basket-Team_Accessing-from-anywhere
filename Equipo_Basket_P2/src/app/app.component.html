@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Basketball Team</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+  <!-- Font Awesome for the basketball icon -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* Custom Styles */
+    h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2.5rem;
+      padding: 20px;
+      background-color: #0d6efd; /* Blue-700 */
+      color: #fd7e14; /* Orange-400 */
+      text-align: center;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+      border-radius: 1px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .header-icon {
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="mb-4">
+    <h1>
+      <i class="fas fa-basketball-ball header-icon"></i>
+      MoviCoders Basket Team
+    </h1>
+  </header>
+
+  <!-- Your other components like <router-outlet> -->
+  <router-outlet></router-outlet>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
