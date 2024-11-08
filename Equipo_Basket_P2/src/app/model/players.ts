@@ -1,10 +1,10 @@
 export interface Player {
-  id: number;
-  nombre: string;
-  posicion: string;
-  num: number;
+  id: String;
+  nombre: String;
+  posicion: String;
+  num: Number;
   edad: String;
-  anillos: any;
+  anillos: String;
   descripcion: String;
   img: String;
   video: String;

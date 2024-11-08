@@ -1,32 +1,40 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { Component, Input, OnInit } from '@angular/core';
+import { PlayersService } from '../../service/players.service';
 import { CommonModule } from '@angular/common';
 import { MediaComponent } from '../media/media.component';
-import {PlayersService} from '../../service/players.service';
+import { EditPlayerComponent } from '../edit-player/edit-player.component';
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+
 
 @Component({
   selector: 'app-detail-component',
   standalone: true,
-  imports: [RouterModule, MediaComponent, CommonModule],
+  imports: [MediaComponent, CommonModule, EditPlayerComponent],
   templateUrl: './detail.component.html',
-  styleUrls: ['./detail.component.css'] // Corregido de 'styleUrl' a 'styleUrls'
+  styleUrl: './detail.component.css'
 })
-export class DetailComponent implements OnInit, OnDestroy {
-  id!: number;
-  player?: any;
-  private sub: any;
+export class DetailComponent {
+  @Input() player: any;
+  modalOpen = false;
 
-  constructor(private route: ActivatedRoute, private PlayerServie:PlayersService) {}
 
-  ngOnInit() {
-    console.log("muestra");
-    this.sub = this.route.params.subscribe(params => {
-      this.id = +params['id'];
-      this.player = this.PlayerServie.getPlayerById(this.id);
+
+  constructor(private PlayersService: PlayersService) {}
+
+
+
+  openModal(id: string) {
+    this.PlayersService.getPlayerById(id).subscribe(player => {
+      this.player = player;
+
+      this.modalOpen = true; // Abre el modal
+      const modal = document.querySelector('.modalEditar');
+      if (modal){
+        modal.classList.add('d-block');
+      }
     });
   }
 
-  ngOnDestroy() {
-    this.sub.unsubscribe();
-  }
+
 }

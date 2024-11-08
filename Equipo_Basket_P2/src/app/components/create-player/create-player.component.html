@@ -1,0 +1,187 @@
+<div class="modal modalCrear d-block" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="registerModalLabel">Registration Form</h5>
+        <button type="button" class="btn btn-danger btn-close" data-dismiss="modal" aria-label="Close" (click)="cerrarModalCrear()">
+
+        </button>
+      </div>
+      <div class="modal-body">
+        <section class="container">
+          <div class="register-form mt-5 w-100">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()" id="registerForm">
+              <div *ngIf="mensaje" class="alert alert-success" role="alert">
+                {{ mensaje }}
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                      <label>Name</label>
+                      <input
+                        type="text"
+                        formControlName="name"
+                        class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && f['name'].errors }"
+
+
+
+
+
+                      />
+                      @if (submitted && f['name'].errors) {
+                      <div class="invalid-feedback">
+                        @if (f['name'].errors['required']) {
+                        <div>Name is required</div>
+                        }
+                        @if (f['name'].errors['minlength']) {
+                        <div>Name must be at least 8 characters</div>
+                        }
+                      </div>
+                      }
+                    </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                      <label>Number</label>
+                      <input
+                        type="text"
+                        formControlName="num"
+                        class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && f['num'].errors }"
+                      />
+                      @if (submitted && f['num'].errors) {
+                      <div class="invalid-feedback">
+                        @if (f['num'].errors['required']) {
+                        <div>Number is required</div>
+                        }
+                        @if (f['num'].errors['minlength']) {
+                        <div>Number must be 2 characters</div>
+                        }
+                        @if (f['num'].errors['maxlength']) {
+                          <div>Number must be 2 characters</div>
+                        }
+                      </div>
+                      }
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                      <label>Position</label>
+                      <div>
+                          <select formControlName="position" class="form-control">
+                              <option *ngFor="let position of positions" [ngValue]="position">
+                              {{ position }}
+                              </option>
+                          </select>
+                      </div>
+                      @if (submitted && f['position'].errors) {
+                      <div class="invalid-feedback">
+                      @if (f['position'].errors['required']) {
+                      <div>Position is required</div>
+                      }
+                      </div>
+                      }
+                  </div>
+
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                      <label>Age</label>
+                      <input
+                        type="text"
+                        formControlName="age"
+                        class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && f['age'].errors }"
+                      />
+                      @if (submitted && f['age'].errors) {
+                      <div class="invalid-feedback">
+                        @if (f['age'].errors['required']) {
+                        <div>Age is required</div>
+                        }
+                        @if (f['age'].errors['minlength']) {
+                        <div>Age must be at least 8 characters</div>
+                        }
+                      </div>
+                      }
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                      <label>NBA Rings</label>
+                      <input
+                        type="text"
+                        formControlName="anillos"
+                        class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && f['anillos'].errors }"
+                      />
+                      @if (submitted && f['anillos'].errors) {
+                      <div class="invalid-feedback">
+                        @if (f['anillos'].errors['required']) {
+                        <div>NBA Rings is required</div>
+                        }
+                        @if (f['anillos'].errors['minlength']) {
+                        <div>NBA Rings must be at least 8 characters</div>
+                        }
+                      </div>
+                      }
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                      <label>Description</label>
+                      <textarea
+                        type="text"
+                        formControlName="description"
+                        class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && f['anillos'].errors }"
+                      ></textarea>
+                      @if (submitted && f['description'].errors) {
+                      <div class="invalid-feedback">
+                        @if (f['description'].errors['required']) {
+                        <div>Description is required</div>
+                        }
+                        @if (f['description'].errors['minlength']) {
+                        <div>Description must be at least 8 characters</div>
+                        }
+                      </div>
+                      }
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                      <label>Photo</label>
+                      <input type="file"
+                      (change)="ficheroCompleto($event)"
+                      name="fotografiaicion" />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                      <label>Video</label>
+                      <input type="file"
+                      (change)="videoCompleto($event)"
+                      name="fotografiaicion" />
+                  </div>
+                </div>
+                </div>
+
+            </form>
+          </div>
+        </section>
+      </div>
+      <div class="modal-footer">
+        <div class="row">
+          <div class="col-6">
+              <button type="button" (click)="onReset()" class="btn btn-warning w-100"> Reset </button>
+          </div>
+          <div class="col-6">
+              <button type="submit" class="btn btn-primary" form="registerForm" (click)="guardarDatos()" >Register</button>
+          </div>
+
+      </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,29 +1,39 @@
-import { Pipe, PipeTransform } from '@angular/core';
-import { Player } from '../model/players';
+import { Pipe, PipeTransform } from "@angular/core";
 
 @Pipe({
-  name: 'filterName',
-  standalone: true
-})
+    name: 'nameFilter',
+    standalone:true
+
+    })
+
 export class FilterNamePipe implements PipeTransform {
-  transform(players: Player[], searchText: string, opcion: string): Player[] {
-    if (!players) return [];
-    if (!searchText) return players;
+    transform(items: any[], searchText:string,opcion:string, opcion2:string ): any[] {
+        if (!items) return[];
+        if (!searchText && !opcion2.length) return items;
 
-    searchText = searchText.toLowerCase();
-    opcion = opcion.toLowerCase();
+        searchText=searchText.toLowerCase();
+        opcion=opcion.toLowerCase();
+        opcion2=opcion2.toLowerCase();
+        let aux = items;
 
-    return players.filter(player => {
-      switch (opcion) {
-        case 'nombre':
-          return player.nombre.toLowerCase().includes(searchText);
-        case 'posicion':
-          return player.posicion.toLowerCase().includes(searchText);
-        case 'edad':
-          return player.edad.toString().includes(searchText);
-        default:
-          return false;
-      }
-    });
-  }
+        if (!!opcion2.length && opcion2 != 'todos')
+        {
+            return items.filter((item: any) =>{
+                return item.position.toLowerCase().includes(opcion2);
+            })
+        }
+        else if (opcion=="edad")
+        {
+            return items.filter((item: any) => {
+                return item.edad.toLowerCase().includes(searchText);
+            })
+        }
+        else
+        {
+            return items.filter((item: any) => {
+                return item.nombre.toLowerCase().includes(searchText);
+
+            })
+        }
+    }
 }

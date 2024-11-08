@@ -1,20 +1,26 @@
-<section class="container">
-
-  <button [routerLink]="['/']" class="btn btn-warning my-4">Ver Todos</button>
+<section *ngIf="!!player" class="container py-5">
   <div class="row">
-      <div class="col-lg-6">
-          <app-media-component>
-              <source src="{{player.video}}" />
+      <div class="col-lg-6" *ngIf="!!player">
+          <app-media-component  [player]="player">
           </app-media-component>
       </div>
+
+
       <div class="col-lg-6">
-          <h1>{{player.nombre}}</h1>
+          <h1>{{player.name}}</h1>
           <h4><b>Número:</b> {{player.num}}</h4>
-          <p *ngIf="!!player.anillos"><b>Anillos NBA:</b> {{player.anillos}}</p>
-          <p *ngIf="!player.anillos"><b>Anillos NBA:</b> Ninguno</p>
-          <p><b>Posición:</b> {{player.posicion}}</p>
-          <p><b>Edad:</b> {{player.edad}}</p>
-          <p><b>Descripcion:</b> {{player.descripcion}}</p>
+          <p *ngIf="!!(player.anillos != '0')"><b>Anillos NBA:</b> {{player.anillos}}</p>
+          <p *ngIf="!(player.anillos != '0')"><b>Anillos NBA:</b> Ninguno</p>
+          <p><b>Posición:</b> {{player.position}}</p>
+          <p><b>Edad:</b> {{player.age}}</p>
+          <p><b>Descripcion:</b> {{player.description}}</p>
+          <div class="">
+              <button type="button" class="btn btn-outline-dark" (click)="openModal(player.id)">Editar información <i class="fa-solid fa-pen-to-square"></i></button>
+          </div>
       </div>
   </div>
 </section>
+
+
+<!-- Modal de edición -->
+<app-edit-player *ngIf="modalOpen" [player]="player"></app-edit-player>

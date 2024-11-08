@@ -1,38 +1,73 @@
 import { Component, OnInit } from '@angular/core';
+import { PlayersService } from '../../service/players.service';
 import { CommonModule } from '@angular/common';
-import { Player } from '../../model/players';
-import {PlayersService} from '../../service/players.service';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import {FilterNamePipe} from '../../pipes/filter-name.pipe';
-import {FilterPositionPipe} from '../../pipes/filter-position.pipe';
+import { FilterNamePipe } from '../../pipes/filter-name.pipe';
+import { DetailComponent } from '../detail/detail.component';
+import { CreatePlayerComponent } from '../create-player/create-player.component';
 
 
 @Component({
   selector: 'app-players-component',
   standalone: true,
-  imports: [RouterModule,CommonModule,FormsModule, FilterNamePipe,FilterPositionPipe],
+  imports: [RouterModule, CommonModule, FormsModule, FilterNamePipe, CreatePlayerComponent, DetailComponent], // Elimina los imports no utilizados
 
   templateUrl: './players.component.html',
-  styleUrl: './players.component.css'
+  styleUrls: ['./players.component.css']
 })
-
-
 export class PlayersComponent implements OnInit {
-  players: Player[] = [];
+  players: any = [];
+  player: any;
+  filterSearch = '';
+  opcion = 'Nombre';
+  opcion2 = 'Todos';
+  rerender: any = true;
+  playerId: any = null;
+  mensaje: string = '';
 
-  filterSearch ='';
-  opcion='Nombre';
+  constructor(private PlayerService: PlayersService) {}
 
-  constructor (private PlayerServie:PlayersService){}
+  modalOpenCrear = false;
 
-  ngOnInit():void{
-   this.getPlayers();
-
+  ngOnInit(): void {
+    this.PlayerService.getPlayers().subscribe({
+      next: (data: any[]) => {
+        this.players = data;
+      },
+      error: (error) => {
+        console.error('Error al obtener jugadores:', error);
+      }
+    });
   }
 
   getPlayers(): void {
-    this.players=this.PlayerServie.getPlayers();
+    this.players = this.PlayerService.getPlayers();
+  }
 
+  setPlayer(id: String) {
+    console.log("click");
+    this.rerender = false;
+    this.PlayerService.getPlayerById(id).subscribe(player => {
+      this.player = player;
+    });
+    setTimeout(() => (this.rerender = true), 500);
+  }
+
+  removePlayer(id: String) {
+    this.PlayerService.deletePlayer(id);
+    this.mensaje = 'El jugador ha sido eliminado exitosamente.';
+    setTimeout(() => {
+      this.mensaje = '';
+    }, 2500);
+  }
+
+  openModalCrear() {
+    console.log("abrir modal");
+    this.modalOpenCrear = true;
+    const modal = document.querySelector('.modalCrear');
+    if (modal) {
+      modal.classList.add('d-block');
+    }
   }
 }
