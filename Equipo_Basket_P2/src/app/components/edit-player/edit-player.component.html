@@ -1,66 +1,98 @@
-<div class=" modal modalEditar d-block">
+<div class="modal modalEditar d-block">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header d-flex justify-content-between">
         <h5 class="modal-title">Editar Jugador</h5>
-        <button type="button" class="btn btn-danger btn-close" (click)="cerrarModalEditar()">
-          <span aria-hidden="true"></span>
-        </button>
+        <button type="button" class="btn-close" (click)="cerrarModalEditar()"></button>
       </div>
       <div class="modal-body">
-
         <form (submit)="guardarCambios()">
           <div *ngIf="mensaje" class="alert alert-success" role="alert">
             {{ mensaje }}
           </div>
+          <!-- Campo Nombre -->
           <div class="form-group">
-
-              <label for="name">Nombre:</label>
-              <input type="text" class="form-control" id="name" name="name" [(ngModel)]="player.name">
-            </div>
+            <label for="name">Nombre:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="name"
+              name="name"
+              [(ngModel)]="player.name"
+            />
+          </div>
+          <!-- Campo Número -->
+          <div class="form-group">
+            <label for="num">Número:</label>
+            <input
+              type="number"
+              class="form-control"
+              id="num"
+              name="num"
+              [(ngModel)]="player.num"
+            />
+          </div>
+          <!-- Campo Posición -->
+          <div class="form-group">
+            <label for="position">Posición:</label>
+            <select
+              class="form-control"
+              id="position"
+              name="position"
+              [(ngModel)]="player.position"
+            >
+              <option *ngFor="let position of positions" [value]="position">
+                {{ position }}
+              </option>
+            </select>
+          </div>
+          <!-- Campo Edad -->
           <div class="form-group">
             <label for="age">Edad:</label>
-            <input type="text" class="form-control" id="age" name="age"[(ngModel)]="player.age">
+            <input
+              type="number"
+              class="form-control"
+              id="age"
+              name="age"
+              [(ngModel)]="player.age"
+            />
           </div>
-          <div class="form-group">
-              <label for="number">Numero camiseta:</label>
-              <input type="text" class="form-control" id="number" name="number" [(ngModel)]="player.num">
-            </div>
-            <div class="form-group">
-              <label for="number">Posicion:</label>
-              <div>
-                  <select class="form-control" id="position" name="position" [(ngModel)]="player.position">
-                      <option *ngFor="let position of positions">
-                      {{ position }}
-                      </option>
-                  </select>
-              </div>
-            </div>
+          <!-- Campo Anillos NBA -->
           <div class="form-group">
             <label for="anillos">Anillos NBA:</label>
-            <input type="text" class="form-control" id="anillos" name="anillos" [(ngModel)]="player.anillos">
+            <input
+              type="number"
+              class="form-control"
+              id="anillos"
+              name="anillos"
+              [(ngModel)]="player.anillos"
+            />
           </div>
+          <!-- Campo Descripción -->
           <div class="form-group">
-            <label for="descripcion">Descripción:</label>
-            <textarea class="form-control" id="descripcion" name="descripcion" [(ngModel)]="player.description"></textarea>
+            <label for="description">Descripción:</label>
+            <textarea
+              class="form-control"
+              id="description"
+              name="description"
+              rows="3"
+              [(ngModel)]="player.description"
+            ></textarea>
           </div>
+          <!-- Campo Ruta de la Imagen -->
           <div class="form-group">
-            <label>Foto:</label>
-            <br>
-            <span class="fw-bold text-secondary" *ngIf="player.video && !nuevaFotoSeleccionada">foto actual: {{ getNombreFoto(player.img) }}</span>
-            <input type="file" (change)="cambiarFoto($event)" name="foto" [(ngModel)]="player.imgName">
+            <label>Ruta de la Foto (assets/images/...):</label>
+            <input type="text" class="form-control" name="img" [(ngModel)]="player.img" />
           </div>
+          <!-- Campo Ruta del Video -->
           <div class="form-group">
-            <label>Video:</label>
-            <br>
-            <span class="fw-bold text-secondary" *ngIf="player.video && !nuevoVideoSeleccionado">video actual: {{ getVideoNameFromUrl(player.video) }}</span>
-            <input type="file" (change)="cambiarVideo($event)" name="video" [(ngModel)]="player.video">
-        </div>
+            <label>Ruta del Video (assets/videos/...):</label>
+            <input type="text" class="form-control" name="video" [(ngModel)]="player.video" />
+          </div>
+          <!-- Botón para guardar cambios -->
           <button type="submit" class="btn btn-primary w-100 p-2 mt-3">Guardar Cambios</button>
         </form>
       </div>
     </div>
   </div>
 </div>
-
-

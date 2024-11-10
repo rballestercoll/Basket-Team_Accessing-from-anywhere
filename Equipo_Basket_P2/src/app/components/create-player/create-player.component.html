@@ -1,186 +1,301 @@
-<div class="modal modalCrear d-block" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+<div class="modal modalCrear d-block">
+  <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="registerModalLabel">Registration Form</h5>
-        <button type="button" class="btn btn-danger btn-close" data-dismiss="modal" aria-label="Close" (click)="cerrarModalCrear()">
-
-        </button>
+        <h5 class="modal-title">Crear Nuevo Jugador</h5>
+        <button type="button" class="btn-close" (click)="cerrarModalCrear()"></button>
       </div>
       <div class="modal-body">
-        <section class="container">
-          <div class="register-form mt-5 w-100">
-            <form [formGroup]="form" (ngSubmit)="onSubmit()" id="registerForm">
-              <div *ngIf="mensaje" class="alert alert-success" role="alert">
-                {{ mensaje }}
-              </div>
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                      <label>Name</label>
-                      <input
-                        type="text"
-                        formControlName="name"
-                        class="form-control"
-                        [ngClass]="{ 'is-invalid': submitted && f['name'].errors }"
-
-
-
-
-
-                      />
-                      @if (submitted && f['name'].errors) {
-                      <div class="invalid-feedback">
-                        @if (f['name'].errors['required']) {
-                        <div>Name is required</div>
-                        }
-                        @if (f['name'].errors['minlength']) {
-                        <div>Name must be at least 8 characters</div>
-                        }
-                      </div>
-                      }
-                    </div>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" id="registerForm">
+          <div *ngIf="mensaje" class="alert alert-success" role="alert">
+            {{ mensaje }}
+          </div><div class="modal modalCrear d-block">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Crear Nuevo Jugador</h5>
+                  <button type="button" class="btn-close" (click)="cerrarModalCrear()"></button>
                 </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                      <label>Number</label>
-                      <input
-                        type="text"
-                        formControlName="num"
-                        class="form-control"
-                        [ngClass]="{ 'is-invalid': submitted && f['num'].errors }"
-                      />
-                      @if (submitted && f['num'].errors) {
-                      <div class="invalid-feedback">
-                        @if (f['num'].errors['required']) {
-                        <div>Number is required</div>
-                        }
-                        @if (f['num'].errors['minlength']) {
-                        <div>Number must be 2 characters</div>
-                        }
-                        @if (f['num'].errors['maxlength']) {
-                          <div>Number must be 2 characters</div>
-                        }
-                      </div>
-                      }
+                <div class="modal-body">
+                  <form [formGroup]="form" (ngSubmit)="onSubmit()" id="registerForm">
+                    <div *ngIf="mensaje" class="alert alert-success" role="alert">
+                      {{ mensaje }}
                     </div>
-                </div>
-
-                <div class="col-md-6">
-                  <div class="form-group">
-                      <label>Position</label>
-                      <div>
-                          <select formControlName="position" class="form-control">
-                              <option *ngFor="let position of positions" [ngValue]="position">
+                    <div class="row">
+                      <!-- Campo Nombre -->
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>Nombre</label>
+                          <input
+                            type="text"
+                            formControlName="name"
+                            class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && f['name'].errors }"
+                          />
+                          <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
+                            <div *ngIf="f['name'].errors['required']">El nombre es obligatorio</div>
+                            <div *ngIf="f['name'].errors['minlength']">
+                              El nombre debe tener al menos 2 caracteres
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Campo Número -->
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>Número</label>
+                          <input
+                            type="number"
+                            formControlName="num"
+                            class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && f['num'].errors }"
+                          />
+                          <div *ngIf="submitted && f['num'].errors" class="invalid-feedback">
+                            <div *ngIf="f['num'].errors['required']">El número es obligatorio</div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Campo Posición -->
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>Posición</label>
+                          <select
+                            formControlName="position"
+                            class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && f['position'].errors }"
+                          >
+                            <option *ngFor="let position of positions" [value]="position">
                               {{ position }}
-                              </option>
+                            </option>
                           </select>
+                          <div *ngIf="submitted && f['position'].errors" class="invalid-feedback">
+                            <div *ngIf="f['position'].errors['required']">La posición es obligatoria</div>
+                          </div>
+                        </div>
                       </div>
-                      @if (submitted && f['position'].errors) {
-                      <div class="invalid-feedback">
-                      @if (f['position'].errors['required']) {
-                      <div>Position is required</div>
-                      }
+                      <!-- Campo Edad -->
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>Edad</label>
+                          <input
+                            type="number"
+                            formControlName="age"
+                            class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && f['age'].errors }"
+                          />
+                          <div *ngIf="submitted && f['age'].errors" class="invalid-feedback">
+                            <div *ngIf="f['age'].errors['required']">La edad es obligatoria</div>
+                            <div *ngIf="f['age'].errors['min']">La edad mínima es 18 años</div>
+                            <div *ngIf="f['age'].errors['max']">La edad máxima es 50 años</div>
+                          </div>
+                        </div>
                       </div>
-                      }
-                  </div>
-
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                      <label>Age</label>
-                      <input
-                        type="text"
-                        formControlName="age"
-                        class="form-control"
-                        [ngClass]="{ 'is-invalid': submitted && f['age'].errors }"
-                      />
-                      @if (submitted && f['age'].errors) {
-                      <div class="invalid-feedback">
-                        @if (f['age'].errors['required']) {
-                        <div>Age is required</div>
-                        }
-                        @if (f['age'].errors['minlength']) {
-                        <div>Age must be at least 8 characters</div>
-                        }
+                      <!-- Campo Anillos NBA -->
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>Anillos NBA</label>
+                          <input
+                            type="number"
+                            formControlName="anillos"
+                            class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && f['anillos'].errors }"
+                          />
+                          <div *ngIf="submitted && f['anillos'].errors" class="invalid-feedback">
+                            <div *ngIf="f['anillos'].errors['required']">Este campo es obligatorio</div>
+                          </div>
+                        </div>
                       </div>
-                      }
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                      <label>NBA Rings</label>
-                      <input
-                        type="text"
-                        formControlName="anillos"
-                        class="form-control"
-                        [ngClass]="{ 'is-invalid': submitted && f['anillos'].errors }"
-                      />
-                      @if (submitted && f['anillos'].errors) {
-                      <div class="invalid-feedback">
-                        @if (f['anillos'].errors['required']) {
-                        <div>NBA Rings is required</div>
-                        }
-                        @if (f['anillos'].errors['minlength']) {
-                        <div>NBA Rings must be at least 8 characters</div>
-                        }
+                      <!-- Campo Descripción -->
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label>Descripción</label>
+                          <textarea
+                            formControlName="description"
+                            class="form-control"
+                            rows="3"
+                            [ngClass]="{ 'is-invalid': submitted && f['description'].errors }"
+                          ></textarea>
+                          <div *ngIf="submitted && f['description'].errors" class="invalid-feedback">
+                            <div *ngIf="f['description'].errors['required']">
+                              La descripción es obligatoria
+                            </div>
+                            <div *ngIf="f['description'].errors['minlength']">
+                              La descripción debe tener al menos 30 caracteres
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                      }
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                      <label>Description</label>
-                      <textarea
-                        type="text"
-                        formControlName="description"
-                        class="form-control"
-                        [ngClass]="{ 'is-invalid': submitted && f['anillos'].errors }"
-                      ></textarea>
-                      @if (submitted && f['description'].errors) {
-                      <div class="invalid-feedback">
-                        @if (f['description'].errors['required']) {
-                        <div>Description is required</div>
-                        }
-                        @if (f['description'].errors['minlength']) {
-                        <div>Description must be at least 8 characters</div>
-                        }
+                      <!-- Campo Ruta de la Imagen -->
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>Ruta de la Foto (assets/images/...)</label>
+                          <input
+                            type="text"
+                            formControlName="img"
+                            class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted && f['img'].errors }"
+                          />
+                          <div *ngIf="submitted && f['img'].errors" class="invalid-feedback">
+                            <div *ngIf="f['img'].errors['required']">La ruta de la imagen es obligatoria</div>
+                          </div>
+                        </div>
                       </div>
-                      }
-                  </div>
+                      <!-- Campo Ruta del Video -->
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>Ruta del Video (assets/videos/...)</label>
+                          <input type="text" formControlName="video" class="form-control" />
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Botones del formulario -->
+                    <div class="modal-footer">
+                      <button type="button" (click)="onReset()" class="btn btn-warning">
+                        Resetear
+                      </button>
+                      <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                  </form>
                 </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                      <label>Photo</label>
-                      <input type="file"
-                      (change)="ficheroCompleto($event)"
-                      name="fotografiaicion" />
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                      <label>Video</label>
-                      <input type="file"
-                      (change)="videoCompleto($event)"
-                      name="fotografiaicion" />
-                  </div>
-                </div>
-                </div>
-
-            </form>
-          </div>
-        </section>
-      </div>
-      <div class="modal-footer">
-        <div class="row">
-          <div class="col-6">
-              <button type="button" (click)="onReset()" class="btn btn-warning w-100"> Reset </button>
-          </div>
-          <div class="col-6">
-              <button type="submit" class="btn btn-primary" form="registerForm" (click)="guardarDatos()" >Register</button>
+              </div>
+            </div>
           </div>
 
-      </div>
+          <div class="row">
+            <!-- Campo Nombre -->
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Nombre</label>
+                <input
+                  type="text"
+                  formControlName="name"
+                  class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f['name'].errors }"
+                />
+                <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
+                  <div *ngIf="f['name'].errors['required']">El nombre es obligatorio</div>
+                  <div *ngIf="f['name'].errors['minlength']">
+                    El nombre debe tener al menos 2 caracteres
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Campo Número -->
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Número</label>
+                <input
+                  type="number"
+                  formControlName="num"
+                  class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f['num'].errors }"
+                />
+                <div *ngIf="submitted && f['num'].errors" class="invalid-feedback">
+                  <div *ngIf="f['num'].errors['required']">El número es obligatorio</div>
+                </div>
+              </div>
+            </div>
+            <!-- Campo Posición -->
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Posición</label>
+                <select
+                  formControlName="position"
+                  class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f['position'].errors }"
+                >
+                  <option *ngFor="let position of positions" [value]="position">
+                    {{ position }}
+                  </option>
+                </select>
+                <div *ngIf="submitted && f['position'].errors" class="invalid-feedback">
+                  <div *ngIf="f['position'].errors['required']">La posición es obligatoria</div>
+                </div>
+              </div>
+            </div>
+            <!-- Campo Edad -->
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Edad</label>
+                <input
+                  type="number"
+                  formControlName="age"
+                  class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f['age'].errors }"
+                />
+                <div *ngIf="submitted && f['age'].errors" class="invalid-feedback">
+                  <div *ngIf="f['age'].errors['required']">La edad es obligatoria</div>
+                  <div *ngIf="f['age'].errors['min']">La edad mínima es 18 años</div>
+                  <div *ngIf="f['age'].errors['max']">La edad máxima es 50 años</div>
+                </div>
+              </div>
+            </div>
+            <!-- Campo Anillos NBA -->
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Anillos NBA</label>
+                <input
+                  type="number"
+                  formControlName="anillos"
+                  class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f['anillos'].errors }"
+                />
+                <div *ngIf="submitted && f['anillos'].errors" class="invalid-feedback">
+                  <div *ngIf="f['anillos'].errors['required']">Este campo es obligatorio</div>
+                </div>
+              </div>
+            </div>
+            <!-- Campo Descripción -->
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Descripción</label>
+                <textarea
+                  formControlName="description"
+                  class="form-control"
+                  rows="3"
+                  [ngClass]="{ 'is-invalid': submitted && f['description'].errors }"
+                ></textarea>
+                <div *ngIf="submitted && f['description'].errors" class="invalid-feedback">
+                  <div *ngIf="f['description'].errors['required']">
+                    La descripción es obligatoria
+                  </div>
+                  <div *ngIf="f['description'].errors['minlength']">
+                    La descripción debe tener al menos 30 caracteres
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Campo Ruta de la Imagen -->
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Ruta de la Foto (assets/images/...)</label>
+                <input
+                  type="text"
+                  formControlName="img"
+                  class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f['img'].errors }"
+                />
+                <div *ngIf="submitted && f['img'].errors" class="invalid-feedback">
+                  <div *ngIf="f['img'].errors['required']">La ruta de la imagen es obligatoria</div>
+                </div>
+              </div>
+            </div>
+            <!-- Campo Ruta del Video -->
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Ruta del Video (assets/videos/...)</label>
+                <input type="text" formControlName="video" class="form-control" />
+              </div>
+            </div>
+          </div>
+          <!-- Botones del formulario -->
+          <div class="modal-footer">
+            <button type="button" (click)="onReset()" class="btn btn-warning">
+              Resetear
+            </button>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
