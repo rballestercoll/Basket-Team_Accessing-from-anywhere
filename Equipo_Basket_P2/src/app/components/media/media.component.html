@@ -1,6 +1,6 @@
 <div>
 	<div id="instructions" *ngIf="!!player">
-		<video controls autoplay id="my_video" class="video" width="640px" height="267px"
+		<video controls autoplay id="my_video" class="video"
 			poster=''
 			data-setup='{ "aspectRatio":"640:267", "playbackRates": [1, 1.5, 2] }'>
 			<source v-if="!!player" src="{{player.video}}" type='video/mp4' />

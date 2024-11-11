@@ -1,21 +1,28 @@
-<section class="container">
+<section class="container ">
+  <section class="buto">
   <button [routerLink]="['/']" class="btn btn-warning my-4">Ver Todos</button>
-  <div *ngIf="player" class="row align-items-center">
+  </section>
+  <div *ngIf="player" class="row align-items-center justify-content-center">
     <!-- Columna de Video -->
-    <div class="col-lg-6 col-md-12 mb-4">
+    <div class="col-xl-6 col-lg-6 col-md-10 col-11 mt-3 mb-3 d-flex justify-content-center">
       <app-media-component [player]="player"></app-media-component>
     </div>
 
     <!-- Columna de Texto -->
-    <div class="col-lg-6 col-md-12">
+    <div class="col-xl-6 col-lg-6 col-md-9 col-9 justify-content-center align-items-center bord">
       <h1>{{ player.name }}</h1>
       <h4><b>Número:</b> {{ player.num }}</h4>
       <p *ngIf="player.anillos"><b>Anillos NBA:</b> {{ player.anillos }}</p>
       <p *ngIf="!player.anillos"><b>Anillos NBA:</b> Ninguno</p>
       <p><b>Posición:</b> {{ player.position }}</p>
       <p><b>Edad:</b> {{ player.age }}</p>
-      <p><b>Descripción:</b> {{ player.description }}</p>
-      <div class="">
+      <div class="desc1">
+      <p><b>Descripción:</b></p>
+      <div class="description">
+        {{ player.description }}
+      </div>
+    </div>
+      <div class="cambis">
         <button type="button" class="btn btn-outline-dark" (click)="openModal(player.id)">Editar información <i class="fa-solid fa-pen-to-square"></i></button>
         <button class="btn btn-success" (click)="guardarCambios()">Guardar Cambios</button>
 
