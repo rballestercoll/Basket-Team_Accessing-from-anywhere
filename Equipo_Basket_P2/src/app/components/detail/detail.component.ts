@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MediaComponent } from '../media/media.component';
@@ -15,7 +15,7 @@ import { EditPlayerComponent } from '../edit-player/edit-player.component';
 })
 export class DetailComponent implements OnInit, OnDestroy {
   id!: string;
-  player: any;
+  @Input() player: any;
   modalOpen = false;
   mensaje: string = '';
   private sub: Subscription = new Subscription();
