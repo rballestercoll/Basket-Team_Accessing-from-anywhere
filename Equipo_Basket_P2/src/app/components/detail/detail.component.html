@@ -16,7 +16,12 @@
       <p *ngIf="!player.anillos"><b>Anillos NBA:</b> Ninguno</p>
       <p><b>Posición:</b> {{ player.position }}</p>
       <p><b>Edad:</b> {{ player.age }}</p>
-      <p><b>Descripción:</b> {{ player.description }}</p>
+      <div class="desc1">
+        <p><b>Descripción:</b></p>
+        <div class="description">
+          {{ player.description }}
+        </div>
+      </div>
       <div class="">
         <button type="button" class="btn btn-outline-dark" (click)="openModal()">Editar información <i class="fa-solid fa-pen-to-square"></i></button>
       </div>
