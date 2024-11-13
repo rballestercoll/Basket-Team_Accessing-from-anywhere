@@ -16,17 +16,10 @@
       <p *ngIf="!player.anillos"><b>Anillos NBA:</b> Ninguno</p>
       <p><b>Posición:</b> {{ player.position }}</p>
       <p><b>Edad:</b> {{ player.age }}</p>
-      <div class="desc1">
-      <p><b>Descripción:</b></p>
-      <div class="description">
-        {{ player.description }}
+      <p><b>Descripción:</b> {{ player.description }}</p>
+      <div class="">
+        <button type="button" class="btn btn-outline-dark" (click)="openModal()">Editar información <i class="fa-solid fa-pen-to-square"></i></button>
       </div>
-    </div>
-      <div class="cambis">
-        <button type="button" class="btn btn-outline-dark" (click)="openModal(player.id)">Editar información <i class="fa-solid fa-pen-to-square"></i></button>
-        <button class="btn btn-success" (click)="guardarCambios()">Guardar Cambios</button>
-
-    </div>
     </div>
   </div>
   <div *ngIf="!player">
@@ -34,57 +27,9 @@
   </div>
 </section>
 
-<!-- Modal de edición
-<app-edit-player *ngIf="modalOpen" [player]="player"></app-edit-player>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--<section *ngIf="!!player" class="container py-5">
-  <div class="row">
-      <div class="col-lg-6" *ngIf="!!player">
-          <app-media-component  [player]="player">
-          </app-media-component>
-      </div> -->
-
-      <!-- Botón para cerrar el detalle
-<button class="btn btn-secondary" (click)="cerrar()">Cerrar</button> -->
-
-
-<!-- <div *ngIf="player">
-  <h1>{{ player.name }}</h1>
-  <h4><b>Número:</b> {{ player.num }}</h4>
-  <p *ngIf="player.anillos && player.anillos !== '0'">
-    <b>Anillos NBA:</b> {{ player.anillos }}
-  </p>
-  <p *ngIf="!player.anillos || player.anillos === '0'">
-    <b>Anillos NBA:</b> Ninguno
-  </p>
-  <p><b>Posición:</b> {{ player.position }}</p>
-  <p><b>Edad:</b> {{ player.age }}</p>
-  <p><b>Descripción:</b> {{ player.description }}</p>
-          <div class="">
-              <button type="button" class="btn btn-outline-dark" (click)="openModal(player.id)">Editar información <i class="fa-solid fa-pen-to-square"></i></button>
-              <button class="btn btn-success" (click)="guardarCambios()">Guardar Cambios</button>
-
-          </div>
-      </div>
-  </div>
-</section>-->
-
-
-<!-- Modal de edición
-<app-edit-player *ngIf="modalOpen" [player]="player"></app-edit-player> -->
+<!-- Componente de edición de jugador -->
+<app-edit-player
+  *ngIf="modalOpen"
+  [player]="player"
+  (cerrarModal)="closeModal()"
+></app-edit-player>
