@@ -125,26 +125,28 @@
                           </div>
                         </div>
                       </div>
-                      <!-- Campo Ruta de la Imagen -->
+                     <!-- Campo de Imagen -->
                       <div class="col-md-6">
                         <div class="form-group">
-                          <label>Ruta de la Foto (assets/images/...)</label>
+                          <label>Foto del Jugador</label>
                           <input
-                            type="text"
-                            formControlName="img"
+                            type="file"
+                            accept="image/*"
+                            (change)="onFileSelected($event, 'img')"
                             class="form-control"
-                            [ngClass]="{ 'is-invalid': submitted && f['img'].errors }"
                           />
-                          <div *ngIf="submitted && f['img'].errors" class="invalid-feedback">
-                            <div *ngIf="f['img'].errors['required']">La ruta de la imagen es obligatoria</div>
-                          </div>
                         </div>
                       </div>
-                      <!-- Campo Ruta del Video -->
+                      <!-- Campo de Video -->
                       <div class="col-md-6">
                         <div class="form-group">
-                          <label>Ruta del Video (assets/videos/...)</label>
-                          <input type="text" formControlName="video" class="form-control" />
+                          <label>Video del Jugador</label>
+                          <input
+                            type="file"
+                            accept="video/*"
+                            (change)="onFileSelected($event, 'video')"
+                            class="form-control"
+                          />
                         </div>
                       </div>
                     </div>

@@ -79,15 +79,25 @@
               [(ngModel)]="player.description"
             ></textarea>
           </div>
-          <!-- Campo Ruta de la Imagen -->
+          <!-- Campo para reemplazar la Imagen -->
           <div class="form-group">
-            <label>Ruta de la Foto (assets/images/...):</label>
-            <input type="text" class="form-control" name="img" [(ngModel)]="player.img" />
+            <label for="img">Nueva Imagen:</label>
+            <input
+              type="file"
+              accept="image/*"
+              (change)="onFileSelected($event, 'img')"
+              class="form-control"
+            />
           </div>
-          <!-- Campo Ruta del Video -->
+          <!-- Campo para reemplazar el Video -->
           <div class="form-group">
-            <label>Ruta del Video (assets/videos/...):</label>
-            <input type="text" class="form-control" name="video" [(ngModel)]="player.video" />
+            <label for="video">Nuevo Video:</label>
+            <input
+              type="file"
+              accept="video/*"
+              (change)="onFileSelected($event, 'video')"
+              class="form-control"
+            />
           </div>
           <!-- Botón para guardar cambios -->
           <button type="submit" class="btn btn-primary w-100 p-2 mt-3">Guardar Cambios</button>
