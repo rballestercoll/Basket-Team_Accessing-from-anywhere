@@ -1,72 +1,119 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { PlayersService } from '../../service/players.service';
 import { FileUploadService } from '../../service/file-upload.service';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-edit-player',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule], // Asegúrate de incluir ReactiveFormsModule
   templateUrl: './edit-player.component.html',
   styleUrls: ['./edit-player.component.css'],
 })
-export class EditPlayerComponent {
+export class EditPlayerComponent implements OnChanges {
   @Input() player: any; // Jugador que se va a editar
   @Output() cerrarModal = new EventEmitter<void>();
+
+  editForm!: FormGroup;
   mensaje: string = '';
-  isLoading: boolean = false; // Propiedad que controla estado de carga
+  errorField: 'img' | 'video' | null = null; // Campo en error
+  isLoading: boolean = false;
 
   positions = ['Ala-Pivot', 'Alero', 'Base', 'Escolta', 'Pivot'];
 
-  // Variables para manejar archivos seleccionados
   selectedFiles: { img: File | null; video: File | null } = { img: null, video: null };
 
   constructor(
+    private formBuilder: FormBuilder,
     private playersService: PlayersService,
     private fileUploadService: FileUploadService
   ) {}
 
-  // Manejo de selección de archivos
-  onFileSelected(event: any, type: 'img' | 'video') {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['player'] && this.player) {
+      this.initializeForm();
+    }
+  }
+
+  initializeForm(): void {
+    this.editForm = this.formBuilder.group({
+      name: [this.player?.name || '', [Validators.required, Validators.minLength(2)]],
+      num: [this.player?.num || '', Validators.required],
+      position: [this.player?.position || '', Validators.required],
+      age: [this.player?.age || '', [Validators.required, Validators.min(18), Validators.max(50)]],
+      anillos: [this.player?.anillos || '', Validators.required],
+      description: [this.player?.description || '', [Validators.required, Validators.minLength(30)]],
+      img: [null],
+      video: [null],
+    });
+  }
+
+  async onFileSelected(event: any, type: 'img' | 'video') {
     const file = event.target.files[0];
-    if (type === 'img') {
-      this.selectedFiles.img = file;
-    } else if (type === 'video') {
-      this.selectedFiles.video = file;
+    if (!file) return;
+
+    try {
+      if (type === 'img') {
+        await this.fileUploadService.uploadFile(file, `validation-only`);
+        this.selectedFiles.img = file;
+        this.mensaje = ''; // Limpiar mensajes de error
+        this.errorField = null;
+      } else if (type === 'video') {
+        await this.fileUploadService.uploadFile(file, `validation-only`);
+        this.selectedFiles.video = file;
+        this.mensaje = ''; // Limpiar mensajes de error
+        this.errorField = null;
+      }
+    } catch (error) {
+      this.mensaje = error as string; // Mostrar mensaje de error
+      this.errorField = type; // Asociar error al campo
+      if (type === 'img') {
+        this.selectedFiles.img = null; // Limpiar archivo seleccionado
+      } else if (type === 'video') {
+        this.selectedFiles.video = null; // Limpiar archivo seleccionado
+      }
+      (event.target as HTMLInputElement).value = ''; // Reiniciar el campo de archivo
     }
   }
 
   async guardarCambios() {
-    this.isLoading = true; // Activa el spinner y desabilita el botón
+    this.isLoading = true;
     try {
+      const updatedData = this.editForm.value;
+
       // Subir nueva imagen si se selecciona
       if (this.selectedFiles.img) {
         const imgPath = `players/images/${this.selectedFiles.img.name}`;
-        this.player.img = await this.fileUploadService.uploadFile(this.selectedFiles.img, imgPath);
+        updatedData.img = await this.fileUploadService.uploadFile(this.selectedFiles.img, imgPath);
       }
 
       // Subir nuevo video si se selecciona
       if (this.selectedFiles.video) {
         const videoPath = `players/videos/${this.selectedFiles.video.name}`;
-        this.player.video = await this.fileUploadService.uploadFile(this.selectedFiles.video, videoPath);
+        updatedData.video = await this.fileUploadService.uploadFile(this.selectedFiles.video, videoPath);
       }
 
-      // Actualizar el jugador en Firestore
-      await this.playersService.updatePlayer(this.player.id, this.player);
+      // Actualizar jugador
+      await this.playersService.updatePlayer(this.player.id, updatedData);
 
       this.mensaje = 'El jugador ha sido actualizado exitosamente.';
+      this.errorField = null; // Limpiar campo en error
       setTimeout(() => {
         this.cerrarModalEditar();
       }, 2500);
     } catch (error) {
       console.error('Error al actualizar el jugador:', error);
+      this.mensaje = 'Error al actualizar el jugador. Intente de nuevo.';
     } finally {
-      this.isLoading = false; // Desactivar el spinner y habilitar el botón
+      this.isLoading = false;
     }
   }
 
   cerrarModalEditar() {
+    this.mensaje = ''; // Limpiar mensajes
+    this.errorField = null; // Limpiar campo en error
+    this.selectedFiles = { img: null, video: null }; // Limpiar archivos seleccionados
     this.cerrarModal.emit();
   }
 }

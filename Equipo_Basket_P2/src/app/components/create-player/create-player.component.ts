@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { PlayersService } from '../../service/players.service';
 import { CommonModule } from '@angular/common';
-import {ReactiveFormsModule, AbstractControl, FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ReactiveFormsModule, AbstractControl, FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FileUploadService } from '../../service/file-upload.service';
 
@@ -26,8 +26,9 @@ export class CreatePlayerComponent implements OnInit {
     video: new FormControl(''),
   });
   submitted = false;
-  isLoading = false; // Nueva propiedad para controlar el estado de carga
+  isLoading = false;
   mensaje: string = '';
+  errorField: 'img' | 'video' | null = null;
 
   positions = ['Ala-Pivot', 'Alero', 'Base', 'Escolta', 'Pivot'];
 
@@ -49,8 +50,8 @@ export class CreatePlayerComponent implements OnInit {
       age: ['', [Validators.required, Validators.min(18), Validators.max(50)]],
       anillos: ['', [Validators.required]],
       description: ['', [Validators.required, Validators.minLength(30)]],
-      img: [''], // No se valida porque se obtiene desde el servicio de subida
-      video: [''], // Igual que la imagen
+      img: [null],
+      video: [null],
     });
   }
 
@@ -58,15 +59,34 @@ export class CreatePlayerComponent implements OnInit {
     return this.form.controls;
   }
 
-  // Método para manejar archivos seleccionados
-  onFileSelected(event: any, type: 'img' | 'video') {
+  async onFileSelected(event: any, type: 'img' | 'video') {
     const file = event.target.files[0];
-    if (type === 'img') {
-      this.selectedFiles.img = file;
-    } else if (type === 'video') {
-      this.selectedFiles.video = file;
+    if (!file) return;
+
+    try {
+      if (type === 'img') {
+        await this.fileUploadService.uploadFile(file, `validation-only`);
+        this.selectedFiles.img = file;
+        this.mensaje = ''; // Limpiar mensaje de error
+        this.errorField = null; // Limpiar el campo en error
+      } else if (type === 'video') {
+        await this.fileUploadService.uploadFile(file, `validation-only`);
+        this.selectedFiles.video = file;
+        this.mensaje = ''; // Limpiar mensaje de error
+        this.errorField = null; // Limpiar el campo en error
+      }
+    } catch (error) {
+      this.mensaje = error as string; // Mostrar mensaje de error
+      this.errorField = type; // Establecer el campo en error
+      if (type === 'img') {
+        this.selectedFiles.img = null; // Limpiar archivo seleccionado
+      } else if (type === 'video') {
+        this.selectedFiles.video = null; // Limpiar archivo seleccionado
+      }
+      (event.target as HTMLInputElement).value = ''; // Reiniciar el campo de archivo
     }
   }
+
 
   async onSubmit(): Promise<void> {
     this.submitted = true;
@@ -75,7 +95,7 @@ export class CreatePlayerComponent implements OnInit {
       return;
     }
 
-    this.isLoading = true; // Mostrar el spinner y desactivar el botón
+    this.isLoading = true;
 
     const playerData = { ...this.form.value };
 
@@ -101,15 +121,23 @@ export class CreatePlayerComponent implements OnInit {
       }, 2500);
     } catch (error) {
       console.error('Error al crear el jugador:', error);
+      this.mensaje = 'Error al crear el jugador. Intente de nuevo.';
     } finally {
-      this.isLoading = false; // Ocultar el spinner y habilitar el botón
+      this.isLoading = false;
     }
-
   }
 
   onReset(): void {
     this.submitted = false;
     this.form.reset();
+    this.selectedFiles = { img: null, video: null }; // Limpiar archivos seleccionados
+    this.mensaje = ''; // Reiniciar mensajes de error
+
+    // Reiniciar manualmente los campos de archivo
+  const fileInputs = document.querySelectorAll('input[type="file"]');
+  fileInputs.forEach(input => {
+    (input as HTMLInputElement).value = ''; // Limpiar el valor del input
+  });
   }
 
   cerrarModalCrear() {
