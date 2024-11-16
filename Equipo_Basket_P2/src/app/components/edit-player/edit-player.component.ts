@@ -15,6 +15,7 @@ export class EditPlayerComponent {
   @Input() player: any; // Jugador que se va a editar
   @Output() cerrarModal = new EventEmitter<void>();
   mensaje: string = '';
+  isLoading: boolean = false; // Propiedad que controla estado de carga
 
   positions = ['Ala-Pivot', 'Alero', 'Base', 'Escolta', 'Pivot'];
 
@@ -37,6 +38,7 @@ export class EditPlayerComponent {
   }
 
   async guardarCambios() {
+    this.isLoading = true; // Activa el spinner y desabilita el botón
     try {
       // Subir nueva imagen si se selecciona
       if (this.selectedFiles.img) {
@@ -59,6 +61,8 @@ export class EditPlayerComponent {
       }, 2500);
     } catch (error) {
       console.error('Error al actualizar el jugador:', error);
+    } finally {
+      this.isLoading = false; // Desactivar el spinner y habilitar el botón
     }
   }
 

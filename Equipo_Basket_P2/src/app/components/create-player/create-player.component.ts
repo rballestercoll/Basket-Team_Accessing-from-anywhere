@@ -26,6 +26,7 @@ export class CreatePlayerComponent implements OnInit {
     video: new FormControl(''),
   });
   submitted = false;
+  isLoading = false; // Nueva propiedad para controlar el estado de carga
   mensaje: string = '';
 
   positions = ['Ala-Pivot', 'Alero', 'Base', 'Escolta', 'Pivot'];
@@ -74,6 +75,8 @@ export class CreatePlayerComponent implements OnInit {
       return;
     }
 
+    this.isLoading = true; // Mostrar el spinner y desactivar el botón
+
     const playerData = { ...this.form.value };
 
     try {
@@ -98,6 +101,8 @@ export class CreatePlayerComponent implements OnInit {
       }, 2500);
     } catch (error) {
       console.error('Error al crear el jugador:', error);
+    } finally {
+      this.isLoading = false; // Ocultar el spinner y habilitar el botón
     }
 
   }
