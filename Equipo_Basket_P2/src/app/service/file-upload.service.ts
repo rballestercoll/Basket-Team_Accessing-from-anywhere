@@ -26,6 +26,15 @@ export class FileUploadService {
     return null; // Archivo válido
   }
 
+  // Método para validar el archivo sin subirlo
+  validateFile(file: File): Promise<void> {
+    const validationError = this.validateFileSize(file);
+    if (validationError) {
+      return Promise.reject(validationError);
+    }
+    return Promise.resolve();
+  }
+
   // Subir archivo a Firebase Storage
   uploadFile(file: File, path: string): Promise<string> {
     // Validar el archivo antes de subirlo

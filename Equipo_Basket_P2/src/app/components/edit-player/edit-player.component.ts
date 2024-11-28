@@ -44,8 +44,8 @@ export class EditPlayerComponent implements OnChanges {
       age: [this.player?.age || '', [Validators.required, Validators.min(18), Validators.max(50)]],
       anillos: [this.player?.anillos || '', Validators.required],
       description: [this.player?.description || '', [Validators.required, Validators.minLength(30)]],
-      img: [null],
-      video: [null],
+      img: [this.player?.img || null],
+      video: [this.player?.video || null],
     });
   }
 
@@ -54,17 +54,14 @@ export class EditPlayerComponent implements OnChanges {
     if (!file) return;
 
     try {
+      await this.fileUploadService.validateFile(file);
       if (type === 'img') {
-        await this.fileUploadService.uploadFile(file, `validation-only`);
         this.selectedFiles.img = file;
-        this.mensaje = ''; // Limpiar mensajes de error
-        this.errorField = null;
       } else if (type === 'video') {
-        await this.fileUploadService.uploadFile(file, `validation-only`);
         this.selectedFiles.video = file;
-        this.mensaje = ''; // Limpiar mensajes de error
-        this.errorField = null;
       }
+      this.mensaje = ''; // Limpiar mensajes de error
+      this.errorField = null;
     } catch (error) {
       this.mensaje = error as string; // Mostrar mensaje de error
       this.errorField = type; // Asociar error al campo
@@ -86,12 +83,16 @@ export class EditPlayerComponent implements OnChanges {
       if (this.selectedFiles.img) {
         const imgPath = `players/images/${this.selectedFiles.img.name}`;
         updatedData.img = await this.fileUploadService.uploadFile(this.selectedFiles.img, imgPath);
+      } else {
+        updatedData.img = this.player.img; // Mantener la imagen actual
       }
 
       // Subir nuevo video si se selecciona
       if (this.selectedFiles.video) {
         const videoPath = `players/videos/${this.selectedFiles.video.name}`;
         updatedData.video = await this.fileUploadService.uploadFile(this.selectedFiles.video, videoPath);
+      } else {
+        updatedData.video = this.player.video; // Mantener el video actual
       }
 
       // Actualizar jugador
